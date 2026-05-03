@@ -24,6 +24,9 @@
         "model": "openai/gpt-5.5",
         "thinkingDefault": "medium",
         "workspace": "~/.openclaw/workspace-socrates",
+        "identity": {
+          "avatar": "avatar.png"
+        },
         "skills": ["agora"],
         "tools": {
           "allow": [
@@ -42,6 +45,9 @@
         "model": "google/gemini-3.1-flash",
         "thinkingDefault": "off",
         "workspace": "~/.openclaw/workspace-plato",
+        "identity": {
+          "avatar": "avatar.png"
+        },
         "tools": {
           "allow": [
             "sessions_send",
