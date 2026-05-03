@@ -1,0 +1,44 @@
+---
+name: agora
+description: Structured multi-agent debate protocol. Socrates consults Plato before advising the user.
+metadata:
+  openclaw:
+    emoji: "🏛️"
+    user-invocable: true
+---
+
+# Agora Skill
+
+This skill activates the Agora debate protocol for Socrates.
+
+## Activation
+
+This skill is always active for Socrates. Every substantive user question triggers the debate protocol defined in AGENTS.md.
+
+## Slash Commands
+
+### /conclude
+Immediately conclude the current debate. Socrates will:
+1. Retrieve everything Plato has said so far via `sessions_history`
+2. Synthesise into the standard advisory format
+3. Note if the deliberation was cut short
+
+### /status  
+Show current debate round and topic summary.
+
+### /roles
+Show which model is currently master and which is disciple:
+- Master (Socrates): GPT-5.5
+- Disciple (Plato): Gemini 3.1 Flash
+
+To swap roles, update the `model` field for each agent in `~/.openclaw/openclaw.json`.
+
+### /reset
+Start a fresh debate session. Clears the current debate context.
+
+## Notes
+
+- Debates run for a maximum of 3 rounds by default
+- Plato communicates only with Socrates — never with the user
+- The user only sees Socrates's synthesised advisory
+- Token usage: each debate round costs ~2 API calls (one Socrates, one Plato)

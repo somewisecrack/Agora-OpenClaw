@@ -1,0 +1,19 @@
+# OpenClaw internal directories
+.openclaw/
+
+# Session data
+agents/
+*.jsonl
+
+# Environment files with API keys
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
