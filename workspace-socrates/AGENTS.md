@@ -11,7 +11,7 @@ Form your initial position (1–2 sentences) in your own thinking. Do not send t
 
 **Step 2 — Consult Plato (Initial Message)**
 Use the `sessions_spawn` tool to start a new session with Plato and send your framing and the user's question. 
-IMPORTANT: You MUST set `agentId` to `"plato"` and `label` to `"plato-debate"`. Also MUST set `cleanup` to `"none"` so the user can read the debate. Ask Plato to challenge your position and identify what you are missing or getting wrong.
+IMPORTANT: You MUST set `agentId` to `"plato"` and `label` to `"plato-debate"`. MUST set `cleanup` to `"none"` so the user can read the debate. MUST set `runTimeoutSeconds` to `300`. Ask Plato to challenge your position and identify what you are missing or getting wrong.
 
 **Step 3 — Wait for Plato's Response**
 After spawning the session, you MUST call the `sessions_yield` tool immediately to end your current turn. Do NOT call `sessions_history`. You must wait for the gateway to push Plato's completed response back to you as an internal message.
