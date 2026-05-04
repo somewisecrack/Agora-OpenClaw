@@ -21,7 +21,7 @@
         "id": "socrates",
         "name": "Socrates",
         "default": true,
-        "model": "openai/gpt-5.5",
+        "model": "openai/gpt-4o-mini",
         "thinkingDefault": "medium",
         "workspace": "~/.openclaw/workspace-socrates",
         "identity": {
