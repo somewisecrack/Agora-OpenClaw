@@ -33,6 +33,12 @@ User Question
 9. **The exchange repeats** until Plato explicitly signals `[CONSENSUS]`
 10. **Socrates prints the Socrates ↔ Plato exchange in the same chat**, then synthesises it into a final `🏛️ AGORA ADVISORY`
 
+### Document Attachments
+
+When a user attaches a document or media file, OpenClaw first extracts readable context into Socrates' incoming message. Plato's spawned sessions do not automatically inherit the original upload, so Socrates must include a `Document Context` section in every Plato `sessions_spawn` task. That context should contain the attachment name, the user's question, and the relevant extracted text, excerpt, or faithful digest.
+
+If Socrates can tell that a file was attached but cannot see readable extracted content, the protocol instructs Socrates to stop and return an Agora config error instead of letting Plato debate blind.
+
 ## File Structure
 
 ```
@@ -147,6 +153,7 @@ The Plato subagent session is still preserved for debugging, but users should no
 - **Consensus is the stop condition**: Socrates is instructed to ignore OpenClaw's automatic `"send that user-facing update now"` nudge after subagent completion and continue messaging Plato until Plato explicitly signals `[CONSENSUS]`.
 - **Fresh spawned rounds**: Socrates uses a fresh `sessions_spawn` for each Plato round instead of `sessions_send` follow-ups. The full visible transcript is included in each new task so Plato has context, and each round is independently auditable.
 - **Visible same-chat exchange**: Socrates must include the actual round-by-round Socrates and Plato turns before the advisory, so the debate is visible without opening the subagent session.
+- **Attachments are forwarded as context**: Plato does not automatically receive the original uploaded file. Socrates forwards extracted document/media context in the spawned task for each round.
 - **No `exec` tool**: Disabled for Socrates to prevent SSL certificate errors on macOS. Agents rely on internal knowledge only.
 
 ## License
