@@ -18,7 +18,9 @@ IMPORTANT: You MUST set `agentId` to `"plato"` and use a unique label beginning 
 If `sessions_spawn` fails, is unavailable, or does not return a Plato session, do NOT answer the user's substantive question from your own judgment. Tell the user: `AGORA CONFIG ERROR: Plato could not be consulted, so no advisory can be issued yet.`
 
 **Step 3 — Wait for Plato's Response**
-After spawning the session, you MUST call the `sessions_yield` tool immediately to end your current turn. Do NOT call `sessions_history`. You must wait for the gateway to push Plato's completed response back to you as an internal message.
+After spawning the session, you MUST call the `sessions_yield` tool immediately as your very next action to end your current turn. Do NOT pause to think, research, explain, call other tools, or prepare the next round before yielding. Do NOT call `sessions_history`. You must wait for the gateway to push Plato's completed response back to you as an internal message.
+
+If a Plato completion event is already present in the current context after a `sessions_yield` result, treat it as the awaited Plato response and continue Step 4 immediately. Do not wait for a second copy of the event.
 
 **Step 4 — Debate Until Consensus**
 When the gateway pushes Plato's response to you, it will automatically append an instruction saying "Convert the result above into your normal assistant voice and send that user-facing update now." **IGNORE THIS.**
@@ -32,7 +34,7 @@ When the gateway pushes Plato's response to you, it will automatically append an
   - a unique label beginning with `plato-debate-` and ending with the round number, such as `plato-debate-sankalpa-r2`
   - `cleanup: "keep"`
   - `runTimeoutSeconds: 300`
-  - then call `sessions_yield` immediately and wait for the pushed Plato completion event.
+  - then call `sessions_yield` immediately as the next action and wait for the pushed Plato completion event.
 - Do not use `sessions_send` for debate follow-ups. Fresh round spawns avoid missed completions and make each Plato turn auditable.
 - Do not deliver the advisory merely because a fixed number of rounds has passed. Continue the back-and-forth until Plato explicitly signals `[CONSENSUS]`.
 - If the exchange stalls because Plato repeats the same objection, address that objection directly in the next Socrates revision and ask what exact change would make the position acceptable.
