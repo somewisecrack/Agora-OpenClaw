@@ -1,7 +1,7 @@
 # Agora — Multi-Agent Debate System for OpenClaw
 
-A structured multi-agent advisory system built on [OpenClaw](https://openclaw.ai) v2026.5.2.  
-Two AI agents — **Socrates** (GPT-5.5) and **Plato** (GPT-5.5) — engage in a structured debate before delivering a synthesised advisory to the user.
+A structured multi-agent advisory system built on [OpenClaw](https://openclaw.ai) v2026.5.2+.  
+Two AI agents — **Socrates** as the master advisor and **Plato** as the analytical challenger — engage in a structured debate before delivering a synthesised advisory to the user. The checked-in config uses GPT-5.5 for both agents, but the pattern is model-agnostic: you can swap either agent to another OpenClaw-supported model.
 
 ## Architecture
 
@@ -12,7 +12,7 @@ User Question
 ┌─────────────┐    sessions_spawn     ┌─────────────┐
 │  Socrates   │ ────────────────────► │    Plato    │
 │  (Master)   │                       │ (Disciple)  │
-│  GPT-5.5    │ ◄──── auto-announce ──│  GPT-5.5    │
+│ configurable│ ◄──── auto-announce ──│ configurable│
 │             │       (push-based)    │             │
 └─────────────┘                       └─────────────┘
      │
@@ -60,7 +60,7 @@ agora-openclaw/
 ### Prerequisites
 
 - [OpenClaw](https://openclaw.ai) v2026.5.2+ installed locally
-- OpenAI API key (for Socrates and Plato / GPT-5.5)
+- API keys for whichever model providers you configure for Socrates and Plato
 
 ### Installation
 
@@ -77,7 +77,7 @@ agora-openclaw/
 
 3. Merge `openclaw.json` into your existing `~/.openclaw/openclaw.json`, or replace it entirely if starting fresh. **Replace `<YOUR_TOKEN_HERE>`** with your gateway auth token.
 
-4. Set your API keys in `~/.openclaw/.env`:
+4. Set the API keys required by your chosen providers in `~/.openclaw/.env`. For example:
    ```bash
    OPENAI_API_KEY=sk-...
    GOOGLE_AI_API_KEY=AI...
@@ -100,6 +100,26 @@ agora-openclaw/
 | `tools.sessions.visibility: "all"` | Allows agents to read each other's session histories |
 | `sessions_yield` in Socrates' tools | Allows Socrates to pause after each Plato round and wait for the push-based response |
 | `cleanup: "keep"` in AGENTS.md | Preserves Plato's debate session so the user can read it |
+
+## Choosing Models
+
+The default `openclaw.json` is only a starting point. To try different models, change the `model` field for either agent:
+
+```json
+{
+  "id": "socrates",
+  "model": "openai/gpt-5.5"
+}
+```
+
+```json
+{
+  "id": "plato",
+  "model": "openai/gpt-5.5"
+}
+```
+
+You can run both roles on the same model, split them across providers, or use a cheaper/faster model for Plato. For best results, Socrates should be strong at synthesis and instruction-following, while Plato should be strong at critique and disagreement.
 
 ## Viewing the Debate
 
