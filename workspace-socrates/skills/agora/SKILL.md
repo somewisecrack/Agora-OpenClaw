@@ -29,7 +29,7 @@ Show current debate round and topic summary.
 ### /roles
 Show which model is currently master and which is disciple:
 - Master (Socrates): GPT-5.5
-- Disciple (Plato): Gemini 3.1 Flash
+- Disciple (Plato): GPT-5.5
 
 To swap roles, update the `model` field for each agent in `~/.openclaw/openclaw.json`.
 
@@ -38,7 +38,7 @@ Start a fresh debate session. Clears the current debate context.
 
 ## Notes
 
-- Debates run for a maximum of 3 rounds by default
+- Debates continue until Plato explicitly signals `[CONSENSUS]`
 - Plato communicates only with Socrates — never with the user
 - The user only sees Socrates's synthesised advisory
 - Token usage: each debate round costs ~2 API calls (one Socrates, one Plato)

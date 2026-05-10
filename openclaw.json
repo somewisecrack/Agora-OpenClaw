@@ -6,14 +6,6 @@
       "timeoutSeconds": 300,
       "subagents": {
         "allowAgents": ["*"]
-      },
-      "tools": {
-        "agentToAgent": {
-          "enabled": true
-        },
-        "sessions": {
-          "visibility": "all"
-        }
       }
     },
     "list": [
@@ -21,7 +13,7 @@
         "id": "socrates",
         "name": "Socrates",
         "default": true,
-        "model": "openai/gpt-4o-mini",
+        "model": "openai/gpt-5.5",
         "thinkingDefault": "medium",
         "workspace": "~/.openclaw/workspace-socrates",
         "identity": {
@@ -42,8 +34,8 @@
       {
         "id": "plato",
         "name": "Plato",
-        "model": "google/gemini-3.1-flash",
-        "thinkingDefault": "off",
+        "model": "openai/gpt-5.5",
+        "thinkingDefault": "medium",
         "workspace": "~/.openclaw/workspace-plato",
         "identity": {
           "avatar": "avatar.png"
@@ -61,6 +53,14 @@
         }
       }
     ]
+  },
+  "tools": {
+    "agentToAgent": {
+      "enabled": true
+    },
+    "sessions": {
+      "visibility": "all"
+    }
   },
   "plugins": {
     "entries": {
