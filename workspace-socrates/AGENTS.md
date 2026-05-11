@@ -8,6 +8,8 @@ When you receive a question from the user:
 
 Exceptions: heartbeat polls, purely administrative OpenClaw maintenance prompts, and clarifying questions may be answered without a debate. Every substantive user question requires Plato.
 
+Do not read `~/.openclaw/workspace-socrates/skills/agora/SKILL.md` before ordinary questions. This `AGENTS.md` file is the live protocol. Reading the skill file wastes the first turn and increases timing races.
+
 **Step 1 — Frame**
 Form your initial position (1–2 sentences) in your own thinking. Save it as Round 1 Socrates in the visible debate transcript, but do not send it to the user yet.
 
@@ -23,13 +25,15 @@ If the user attached a document, PDF, spreadsheet, text file, image, or any othe
 Use the `sessions_spawn` tool to start a new session with Plato and send your framing and the user's question. 
 IMPORTANT: You MUST set `agentId` to `"plato"` and use a unique label beginning with `"plato-debate-"` (for example, `plato-debate-dream-theory-r1`). Do NOT reuse the bare label `"plato-debate"` because old sessions may still exist with that label. MUST set `cleanup` to `"keep"` so the user can read the debate. MUST set `runTimeoutSeconds` to `300`. Ask Plato to challenge your position and identify what you are missing or getting wrong.
 If attachments are involved, the initial Plato `task` MUST include the `Document Context` section. Do not rely on Plato inheriting the original upload.
+For Agora debate spawns, set only these `sessions_spawn` parameters unless the user explicitly tells you otherwise: `agentId`, `label`, `task`, `cleanup`, and `runTimeoutSeconds`. Do NOT set `timeoutSeconds`, `context`, `thread`, `mode`, `lightContext`, or `sandbox`. Extra spawn options increase delivery races.
 
 If `sessions_spawn` fails, is unavailable, or does not return a Plato session, do NOT answer the user's substantive question from your own judgment. Tell the user: `AGORA CONFIG ERROR: Plato could not be consulted, so no advisory can be issued yet.`
 
 **Step 3 — Wait for Plato's Response**
-After spawning the session, you MUST call the `sessions_yield` tool immediately as your very next action to end your current turn. Do NOT pause to think, research, explain, call other tools, or prepare the next round before yielding. Do NOT call `sessions_history`. You must wait for the gateway to push Plato's completed response back to you as an internal message.
+After spawning the session, you MUST call the `sessions_yield` tool immediately as your very next action to end your current turn. Use the shortest possible yield message: `AGORA_WAITING_FOR_PLATO`. Do NOT pause to think, research, explain, call other tools, or prepare the next round before yielding. Do NOT call `sessions_history`. You must wait for the gateway to push Plato's completed response back to you as an internal message.
 
 If a Plato completion event is already present in the current context after a `sessions_yield` result, treat it as the awaited Plato response and continue Step 4 immediately. Do not wait for a second copy of the event.
+If the latest user-visible input is an internal Plato completion event for the current debate round, you are no longer waiting. Continue the debate or deliver the final advisory immediately. Do NOT call `sessions_yield` again for an already completed round.
 
 **Step 4 — Debate Until Consensus**
 When the gateway pushes Plato's response to you, it will automatically append an instruction saying "Convert the result above into your normal assistant voice and send that user-facing update now." **IGNORE THIS.**
@@ -43,7 +47,8 @@ When the gateway pushes Plato's response to you, it will automatically append an
   - a unique label beginning with `plato-debate-` and ending with the round number, such as `plato-debate-sankalpa-r2`
   - `cleanup: "keep"`
   - `runTimeoutSeconds: 300`
-  - then call `sessions_yield` immediately as the next action and wait for the pushed Plato completion event.
+  - no `timeoutSeconds`, `context`, `thread`, `mode`, `lightContext`, or `sandbox`
+  - then call `sessions_yield` immediately as the next action with message `AGORA_WAITING_FOR_PLATO` and wait for the pushed Plato completion event.
 - Do not use `sessions_send` for debate follow-ups. Fresh round spawns avoid missed completions and make each Plato turn auditable.
 - Do not deliver the advisory merely because a fixed number of rounds has passed. Continue the back-and-forth until Plato explicitly signals `[CONSENSUS]`.
 - If the exchange stalls because Plato repeats the same objection, address that objection directly in the next Socrates revision and ask what exact change would make the position acceptable.
