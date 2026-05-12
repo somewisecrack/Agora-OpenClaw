@@ -19,7 +19,6 @@
         "identity": {
           "avatar": "avatar.png"
         },
-        "skills": ["agora"],
         "tools": {
           "allow": [
             "sessions_send",

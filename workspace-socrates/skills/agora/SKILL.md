@@ -14,6 +14,7 @@ This skill activates the Agora debate protocol for Socrates.
 ## Activation
 
 This skill is always active for Socrates. Every substantive user question triggers the debate protocol defined in AGENTS.md.
+Do not read this skill file during ordinary debate turns. AGENTS.md is the live protocol and should be followed directly.
 
 ## Slash Commands
 
@@ -40,5 +41,5 @@ Start a fresh debate session. Clears the current debate context.
 
 - Debates continue until Plato explicitly signals `[CONSENSUS]`
 - Plato communicates only with Socrates — never with the user
-- The user only sees Socrates's synthesised advisory
+- The user sees Socrates's synthesised advisory plus the compact Socrates ↔ Plato exchange in the same chat
 - Token usage: each debate round costs ~2 API calls (one Socrates, one Plato)
