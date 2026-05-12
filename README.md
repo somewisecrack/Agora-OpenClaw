@@ -153,6 +153,7 @@ The Plato subagent session is still preserved for debugging, but users should no
 - **Consensus is the stop condition**: Socrates is instructed to ignore OpenClaw's automatic `"send that user-facing update now"` nudge after subagent completion and continue messaging Plato until Plato explicitly signals `[CONSENSUS]`. There is no fixed round count and no expected Round 2 ending.
 - **Fresh spawned rounds**: Socrates uses a fresh `sessions_spawn` for each Plato round instead of `sessions_send` follow-ups. The full visible transcript is included in each new task so Plato has context, and each round is independently auditable.
 - **Visible same-chat exchange**: Socrates must include the actual round-by-round Socrates and Plato turns before the advisory, so the debate is visible without opening the subagent session.
+- **Long debates are compressed, not hidden**: if a debate runs many rounds, Socrates should summarize each round compactly in `AGORA EXCHANGE`; it must not drop the exchange and send only the advisory.
 - **Attachments are forwarded as context**: Plato does not automatically receive the original uploaded file. Socrates forwards extracted document/media context in the spawned task for each round.
 - **No `exec` tool**: Disabled for Socrates to prevent SSL certificate errors on macOS. Agents rely on internal knowledge only.
 
