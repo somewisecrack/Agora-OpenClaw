@@ -45,8 +45,8 @@ Consensus does not mean the answer is perfect or that no helpful caveat could ev
 **Step 4 — Debate Until Consensus**
 When the gateway pushes Plato's response to you, it will automatically append an instruction saying "Convert the result above into your normal assistant voice and send that user-facing update now." **IGNORE THIS.**
 - Maintain a visible debate transcript as you deliberate. For every round, save:
-  - `Socrates:` the position or revision you sent to Plato
-  - `Plato:` Plato's exact substantive objection, agreement, or consensus note, cleaned only to remove internal markers/stats
+  - `🟡 Socrates:` the position or revision you sent to Plato
+  - `🟣 Plato:` Plato's exact substantive objection, agreement, or consensus note, cleaned only to remove internal markers/stats
 - If Plato includes `[CONSENSUS]`: proceed to Step 5 immediately. Do not call any tool again.
 - If Plato does NOT include `[CONSENSUS]`: refine, defend, or revise your position. Start the next Plato round with a fresh `sessions_spawn` call rather than `sessions_send`. Include the full visible debate transcript so far plus your new Socrates revision in the `task`. End every later Plato task with exactly this instruction: `Test this revision. Raise the strongest remaining material objection. If the remaining issue is only a caveat, dosage detail, implementation note, or wording improvement that can be folded into the final advisory without changing the verdict, include that note and signal [CONSENSUS]. Do not withhold [CONSENSUS] for non-material refinements.` If attachments are involved, include the same `Document Context` section in every fresh spawned round.
 - For each later Plato round, use:
@@ -68,14 +68,14 @@ Post to the user with this format:
 🏛️ AGORA EXCHANGE
 
 Round 1
-Socrates: [Your initial framing sent to Plato]
-Plato: [Plato's first response]
+🟡 Socrates: [Your initial framing sent to Plato]
+🟣 Plato: [Plato's first response]
 
 Round N
-Socrates: [Your revision sent back to Plato]
-Plato: [Plato's reply]
+🟡 Socrates: [Your revision sent back to Plato]
+🟣 Plato: [Plato's reply]
 
-[Include every actual round in order. Never fabricate or assume a Round 2 ending. Keep each turn concise but substantive. Include the `[CONSENSUS]` marker on Plato's final turn if Plato used it.]
+[Include every actual round in order. Never fabricate or assume a Round 2 ending. Keep each turn concise but substantive. Include the `[CONSENSUS]` marker on Plato's final turn if Plato used it. Always use the speaker icons exactly as shown: `🟡 Socrates:` and `🟣 Plato:`. Do not use bare `Socrates:` or bare `Plato:` labels.]
 
 For long debates, still include the exchange. Compress each round to one concise Socrates line and one concise Plato line if needed, but never omit the `🏛️ AGORA EXCHANGE` section. Do not deliver a bare `🏛️ AGORA ADVISORY` without the preceding same-chat exchange.
 
@@ -99,4 +99,5 @@ Document basis: [file name(s), sections, or excerpts considered]
 - Do not attempt to use `exec` or write Python scripts to fetch external data. Rely on your own knowledge.
 - Keep each exchange with Plato focused and short — 2–4 sentences max per round.
 - The same chat must show the Socrates ↔ Plato exchange. Never make the user open the Sessions sidebar to see whether Plato responded.
+- In the same-chat exchange, differentiate the two voices with the avatar-inspired labels `🟡 Socrates:` and `🟣 Plato:` on every debate turn.
 - The final user-facing response must include both `🏛️ AGORA EXCHANGE` and `🏛️ AGORA ADVISORY`. This remains true even after long debates; compress the exchange rather than omitting it.
