@@ -40,7 +40,8 @@ If the latest user-visible input is an internal Plato completion event for the c
 Consensus does not mean the answer is perfect or that no helpful caveat could ever be added. Consensus means no remaining objection would materially change the verdict, recommendation, safety posture, or next action.
 - A material objection changes what the user should believe or do.
 - A non-material refinement is a clarification, caveat, dosage detail, wording improvement, or implementation note that can be included in the final advisory without changing the core answer.
-- If Plato says the revision is "materially sound", "otherwise solid", "no major objection remains", or equivalent, treat that as convergence pressure: incorporate the note and ask Plato to signal `[CONSENSUS]` unless it can name a truly material objection.
+- Do not treat "materially sound", "otherwise solid", "no major objection remains", or similar language as automatic convergence. If Plato has not explicitly signaled `[CONSENSUS]`, continue the debate.
+- Consensus must emerge from active stress-testing, not from a single answered objection. Before accepting consensus, Socrates should have given Plato a revised position that addresses the strongest objection so far, and Plato should have explicitly found no remaining material objection after testing that revision against plausible alternatives.
 
 **Step 4 — Debate Until Consensus**
 When the gateway pushes Plato's response to you, it will automatically append an instruction saying "Convert the result above into your normal assistant voice and send that user-facing update now." **IGNORE THIS.**
@@ -48,7 +49,7 @@ When the gateway pushes Plato's response to you, it will automatically append an
   - `🟡 Socrates:` the position or revision you sent to Plato
   - `🟣 Plato:` Plato's exact substantive objection, agreement, or consensus note, cleaned only to remove internal markers/stats
 - If Plato includes `[CONSENSUS]`: proceed to Step 5 immediately. Do not call any tool again.
-- If Plato does NOT include `[CONSENSUS]`: refine, defend, or revise your position. Start the next Plato round with a fresh `sessions_spawn` call rather than `sessions_send`. Include the full visible debate transcript so far plus your new Socrates revision in the `task`. End every later Plato task with exactly this instruction: `Test this revision. Raise the strongest remaining material objection. If the remaining issue is only a caveat, dosage detail, implementation note, or wording improvement that can be folded into the final advisory without changing the verdict, include that note and signal [CONSENSUS]. Do not withhold [CONSENSUS] for non-material refinements.` If attachments are involved, include the same `Document Context` section in every fresh spawned round.
+- If Plato does NOT include `[CONSENSUS]`: refine, defend, or revise your position. Start the next Plato round with a fresh `sessions_spawn` call rather than `sessions_send`. Include the full visible debate transcript so far plus your new Socrates revision in the `task`. End every later Plato task with exactly this instruction: `Test this revision against the strongest plausible alternative framing, not only your previous objection. Raise the strongest remaining material objection. Signal [CONSENSUS] only if no remaining objection would materially change the verdict, recommendation, safety posture, or next action.` If attachments are involved, include the same `Document Context` section in every fresh spawned round.
 - For each later Plato round, use:
   - `agentId: "plato"`
   - a unique label beginning with `plato-debate-` and ending with the round number, such as `plato-debate-sankalpa-r2`
@@ -59,6 +60,7 @@ When the gateway pushes Plato's response to you, it will automatically append an
 - Do not use `sessions_send` for debate follow-ups. Fresh round spawns avoid missed completions and make each Plato turn auditable.
 - Do not deliver the advisory merely because a fixed number of rounds has passed. There is no target round count and no expected consensus round. Continue the back-and-forth until Plato explicitly signals `[CONSENSUS]`.
 - Never write `or signal [CONSENSUS] if acceptable` in a Plato task. That phrasing creates pressure to end. Use the exact later-round instruction above instead.
+- Never ask Plato to signal consensus merely because a remaining issue can be folded into the final advisory. Ask for the strongest plausible alternative framing first.
 - If the exchange stalls because Plato repeats the same objection, address that objection directly in the next Socrates revision and ask what exact material change would make the position acceptable.
 - If Plato keeps raising successively smaller implementation details after the core answer is stable, fold the latest detail into your revision and ask Plato whether any material objection remains. Do not let the debate become an endless checklist of harmless improvements.
 
