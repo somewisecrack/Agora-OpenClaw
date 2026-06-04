@@ -174,19 +174,38 @@ async function complete(modelRef, prompt, mediaParts = []) {
     generationConfig: { temperature: 0.7, maxOutputTokens: 1200 },
   };
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(googleApiKey)}`;
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const json = await response.json().catch(() => ({}));
-  if (!response.ok) {
+  let lastError;
+  for (let attempt = 1; attempt <= 6; attempt += 1) {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const json = await response.json().catch(() => ({}));
+    if (response.ok) {
+      const text = (json.candidates?.[0]?.content?.parts || []).map((part) => part.text || "").join("").trim();
+      if (!text) throw new Error(`Gemini ${model} returned no text.`);
+      return text;
+    }
+
     const msg = json.error?.message || `${response.status} ${response.statusText}`;
-    throw new Error(`Gemini ${model} failed: ${msg}`);
+    lastError = new Error(`Gemini ${model} failed: ${msg}`);
+    if (response.status !== 429 || attempt === 6) break;
+
+    const delayMs = quotaRetryDelayMs(json, msg, attempt);
+    console.log(`[agora] Gemini quota wait ${Math.round(delayMs / 1000)}s before retry ${attempt + 1}/6`);
+    await sleep(delayMs);
   }
-  const text = (json.candidates?.[0]?.content?.parts || []).map((part) => part.text || "").join("").trim();
-  if (!text) throw new Error(`Gemini ${model} returned no text.`);
-  return text;
+  throw lastError;
+}
+
+function quotaRetryDelayMs(json, message, attempt) {
+  const retryInfo = json.error?.details?.find((item) => item["@type"]?.includes("RetryInfo"));
+  const retryDelay = retryInfo?.retryDelay;
+  const retrySeconds = typeof retryDelay === "string" ? Number.parseFloat(retryDelay.replace(/s$/, "")) : NaN;
+  const messageSeconds = Number.parseFloat(String(message).match(/retry in ([0-9.]+)s/i)?.[1] || "");
+  const seconds = Number.isFinite(retrySeconds) ? retrySeconds : Number.isFinite(messageSeconds) ? messageSeconds : 8 * attempt;
+  return Math.min(60_000, Math.max(3000, Math.ceil(seconds * 1000) + 1000));
 }
 
 function collectMessageText(message) {
