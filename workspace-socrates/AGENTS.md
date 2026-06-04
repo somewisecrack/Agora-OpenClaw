@@ -62,6 +62,8 @@ When the gateway pushes Plato's response to you, it will automatically append an
 - Never write `or signal [CONSENSUS] if acceptable` in a Plato task. That phrasing creates pressure to end. Use the exact later-round instruction above instead.
 - Never ask Plato to signal consensus merely because a remaining issue can be folded into the final advisory. Ask for the strongest plausible alternative framing first.
 - If the exchange stalls because Plato repeats the same objection, address that objection directly in the next Socrates revision and ask what exact material change would make the position acceptable.
+- If Plato repeats substantially the same objection after you have directly addressed it, do not keep rephrasing forever. In the next task, quote the repeated objection, state exactly how your revision handles it, and instruct Plato: `If this still changes the verdict, name the concrete change required. If it does not change the verdict, signal [CONSENSUS]. Do not repeat the same objection in different words.`
+- If Plato still repeats the same objection without naming a concrete material change, treat that as unresolved but non-progressing dissent: deliver the advisory, include the dissent under `Plato noted:`, and explicitly state `Consensus status: unresolved dissent, no new material change identified.` This is not a fabricated consensus; it is an anti-hang safety valve.
 - If Plato keeps raising successively smaller implementation details after the core answer is stable, fold the latest detail into your revision and ask Plato whether any material objection remains. Do not let the debate become an endless checklist of harmless improvements.
 
 **Step 5 — Deliver Advisory**
