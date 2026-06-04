@@ -1,0 +1,16 @@
+[Unit]
+Description=Agora direct Telegram debate bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/agora-openclaw
+Environment=OPENCLAW_STATE_DIR=/root/.openclaw
+Environment=AGORA_ALLOWED_CHATS=1644947564
+ExecStart=/usr/bin/node /opt/agora-openclaw/agora-telegram-bot.mjs
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
