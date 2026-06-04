@@ -5,10 +5,10 @@
       "thinkingDefault": "medium",
       "timeoutSeconds": 300,
       "model": {
-        "primary": "google/gemini-2.5-flash"
+        "primary": "google/gemini-2.5-flash-lite"
       },
       "models": {
-        "google/gemini-2.5-flash": {}
+        "google/gemini-2.5-flash-lite": {}
       },
       "subagents": {
         "allowAgents": ["*"]
@@ -19,7 +19,7 @@
         "id": "socrates",
         "name": "Socrates",
         "default": true,
-        "model": "google/gemini-2.5-flash",
+        "model": "google/gemini-2.5-flash-lite",
         "thinkingDefault": "low",
         "workspace": "~/.openclaw/workspace-socrates",
         "identity": {
@@ -39,7 +39,7 @@
       {
         "id": "plato",
         "name": "Plato",
-        "model": "google/gemini-2.5-flash",
+        "model": "google/gemini-2.5-flash-lite",
         "thinkingDefault": "medium",
         "workspace": "~/.openclaw/workspace-plato",
         "identity": {
